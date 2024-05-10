@@ -1,6 +1,8 @@
 import { useState } from 'react'
-import { Card } from "flowbite-react";
-import { Button } from "flowbite-react";
+import { Card, Button } from "flowbite-react";
+import Title from './components/Title';
+import ModalComponent from './components/Modal';
+import EventList from './components/EventList';
 
 
 export function App() {
@@ -22,27 +24,22 @@ export function App() {
     })
   }
 
+  const subtitle = "All your events here"
+
   return (
     <>
+      <Title title="Get Events" subtitle={subtitle} />
+      
       <div className='flex mt-5 justify-center'>
         {showTextCard && (<Button onClick={() => setShowTextCard(false)}>hide cards</Button>)}
         {!showTextCard && (<Button onClick={() => setShowTextCard(true)}>show cards</Button>)}
       </div>
       <div className='grid place-items-center h-screen'>
-        {showTextCard && texts.map((text) => (
-          <Card key={text.id} className="max-w-sm my-5">
-          <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-            {text.title}
-          </h5>
-          <p className="font-normal text-gray-700 dark:text-gray-400">
-            {text.paragraph}
-          </p>
-          <Button color="failure" onClick={() => {handleClick(text.id)}}>
-            Delete
-          </Button>
-        </Card>
-        ))}
+        {showTextCard && <EventList texts={texts} Card={Card} Button={Button} handleClick={handleClick} />}
+        <ModalComponent />
       </div>
+
+      
     </>
   );
 }
