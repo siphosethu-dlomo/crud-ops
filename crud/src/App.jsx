@@ -7,21 +7,27 @@ import EventList from './components/EventList';
 
 export function App() {
   const [showTextCard, setShowTextCard] = useState(true)
-  const [texts, setTexts] = useState([
-    {title: "Noteworthy technology acquisitions 2021", paragraph: "Here are the biggest enterprise technology acquisitions of 2021 so far...", id: 1},
-    {title: "Noteworthy technology acquisitions 2022", paragraph: "Here are the biggest enterprise technology acquisitions of 2022 so far...", id: 2},
-    {title: "Noteworthy technology acquisitions 2023", paragraph: "Here are the biggest enterprise technology acquisitions of 2023 so far...", id: 3}
-  ])
+  const [events, setEvents] = useState([])
 
-  console.log(showTextCard);
+  const addEvent = (events) => {
+    setEvents((preEvents) => {
+      return [...preEvents, events]
+    })
+  }
 
   const handleClick = (id) => {
     // deleting cards, previous state
-    setTexts((prevTexts) => {
-      return prevTexts.filter((textCard) => {
+    setEvents((prevEvents) => {
+      return prevEvents.filter((textCard) => {
         return id !== textCard.id
       })
     })
+  }
+
+  // video - #45 same brach, no commits yet
+
+  const handleClose = () => {
+    setOpenModal(false)
   }
 
   const subtitle = "All your events here"
@@ -35,11 +41,9 @@ export function App() {
         {!showTextCard && (<Button onClick={() => setShowTextCard(true)}>show cards</Button>)}
       </div>
       <div className='grid place-items-center h-screen'>
-        {showTextCard && <EventList texts={texts} Card={Card} Button={Button} handleClick={handleClick} />}
-        <ModalComponent />
+        <ModalComponent addEvent={addEvent} handleClose={handleClose}/>
+        {showTextCard && <EventList events={events} Card={Card} Button={Button} handleClick={handleClick} />}
       </div>
-
-      
     </>
   );
 }
